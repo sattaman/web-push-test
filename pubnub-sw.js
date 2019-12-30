@@ -1,6 +1,8 @@
-importScripts('https://cdn.pubnub.com/sdk/javascript/pubnub.4.27.2.min.js');
+self.window = self;
+
+importScripts('https://cdn.pubnub.com/sdk/javascript/pubnub.4.30.0-beta.0.js');
   
-var pubnub = new window.PubNub({
+var pubnub = new PubNub({
   subscribeKey: 'sub-c-06ec80f0-1db0-11ea-b278-86076a99d5da'
 });
 
