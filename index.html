@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Push test</title>
+    <script>
+      function enablePushNotifications() {
+        if ('serviceWorker' in navigator && 'Notification' in window) {
+          Notification.requestPermission(function(permission) {
+            if (permission === "granted") {
+              navigator.serviceWorker.register('./pubnub-sw.js');
+            };
+          });
+        } else {
+          alert('unsupported browser')
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="enablePushNotifications()">Enable push notifications</button>
+  </body>
+</html>
