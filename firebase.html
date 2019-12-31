@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Push test</title>
+  </head>
+  <body>
+
+    <ul>
+        <li><a href="./index.html">Service worker</a></li>
+        <li><a href="./browser.html">In browser notifications</a></li>
+    </ul>
+
+    <h3>Firebase notification test</h3>
+
+    <button onclick="enablePushNotifications()">Enable push notifications</button>
+    <br /><br />
+    <div id="token"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-messaging.js"></script>
+
+    <script>
+        var firebaseConfig = {
+            apiKey: "AIzaSyDnwMVNmQCSnWrUd-sV5XA1qKykurGsbR4",
+            authDomain: "fir-pushtest-e1bed.firebaseapp.com",
+            databaseURL: "https://fir-pushtest-e1bed.firebaseio.com",
+            projectId: "fir-pushtest-e1bed",
+            storageBucket: "fir-pushtest-e1bed.appspot.com",
+            messagingSenderId: "575989352183",
+            appId: "1:575989352183:web:46e8ed5300e443e7bf35f2"
+        };
+        firebase.initializeApp(firebaseConfig);
+    </script>
+    <script>
+        function enablePushNotifications() {
+            const messaging = firebase.messaging();
+            messaging.requestPermission()
+                .then(() => messaging.getToken())
+                .then(function (token) {
+                    console.log('token', token);
+                    document.getElementById("token").innerHTML = "Token: "+token;
+                });
+        }
+    </script>
+  </body>
+</html>

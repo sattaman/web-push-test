@@ -6,7 +6,6 @@ var pubnub = new PubNub({
   subscribeKey: 'sub-c-06ec80f0-1db0-11ea-b278-86076a99d5da'
 });
 
-
 pubnub.addListener({
   message: function({ message }) {
       console.log('handle messaage', message);

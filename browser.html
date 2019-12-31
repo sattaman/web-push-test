@@ -1,0 +1,90 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <title>PubNub + HTML5 Notification API demo</title>
+   </head>
+    <body>
+        <ul>
+            <li><a href="./index.html">Service worker</a></li>
+            <li><a href="./firebase.html">Firebase notifications</a></li>
+        </ul>
+
+        <h3>PubNub + HTML5 Notification API demo</h3>
+        <br>
+        <button id='notifymeBtn'>Notify me!</button>
+        <p>
+        <button id='publishBtn'>Publish Message</button>
+
+	<script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.30.0-beta.0.js"></script>
+
+	<script type="text/javascript">
+    document.getElementById("notifymeBtn").addEventListener("click", notifyMe);
+    document.getElementById("publishBtn").addEventListener("click", publishMessage);
+
+    pubnub = new PubNub({
+      publishKey : 'demo-36',
+      subscribeKey : 'demo-36'
+    })
+
+    pubnub.addListener({
+        status: function(statusEvent) {
+            if (statusEvent.category === "PNConnectedCategory") {
+                console.log("connected to channel");
+            }
+        },
+        message: function(message) {
+            console.log(message);
+            notifyMe(message.text);
+        },
+    })
+
+    console.log("Subscribing..");
+    pubnub.subscribe({
+        channels: ['cv-ch1']
+    })
+
+
+  function publishMessage() {
+    pubnub.publish(
+    {
+        message: {"text": "published message"},
+        channel: 'cv-ch1'
+    },
+    function(status, response) {
+        if (status.error) {
+            console.log("publishing failed w/ status: ", status);
+        } else {
+            console.log("message published w/ server response: ", response);
+        }
+    });
+
+  }
+
+	function notifyMe(message) {
+      console.log('notifyMe', message);
+  		if (message == undefined){
+  			message = "Hi there! You clicked a button.";
+  		};
+      // Let's check if the browser supports notifications
+  		if (!("Notification" in window)) {
+    			alert("This browser does not support desktop notification");
+  		}
+  		// Let's check whether notification permissions have already been granted
+  		else if (Notification.permission === "granted") {
+    	// If it's okay let's create a notification
+    			var notification = new Notification(message);
+  		}
+  		// Otherwise, we need to ask the user for permission
+  		else if (Notification.permission !== 'denied') {
+    			Notification.requestPermission(function (permission) {
+      		// If the user accepts, let's create a notification
+      				if (permission === "granted") {
+        				var notification = new Notification("Hi there!");
+      				}
+    			});
+  		}
+  }
+
+	</script>
+  </body>
+</html>

@@ -10,7 +10,9 @@
             console.log('permission',permission);
             if (permission === "granted") {
               console.log('registering service worker')
-              navigator.serviceWorker.register('./pubnub-sw.js');
+              navigator.serviceWorker.register('./pubnub-sw.js').then(() => {
+                  alert('service worker registered - listening to ch1')
+              })
             }
           });
         } else {
@@ -21,6 +23,15 @@
    
   </head>
   <body>
+    <ul>
+      <li> <a href="./browser.html">In browser notifications</a></li>
+      <li> <a href="./firebase.html">Firebase notifications</a></li>
+    </ul>
+   
+   
+
+    <h3>Service worker notification test</h3>
+
     <button onclick="enablePushNotifications()">Enable push notifications</button>
   </body>
 </html>
