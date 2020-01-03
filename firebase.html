@@ -16,7 +16,7 @@
     <button onclick="enablePushNotifications()">Enable push notifications</button>
     <br /><br />
     <div id="token"></div>
-    <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.30.0-beta.0.js"></script>
+    <!-- <script src="https://cdn.pubnub.com/sdk/javascript/pubnub.4.30.0-beta.0.js"></script> -->
 
     <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.6.1/firebase-messaging.js"></script>
@@ -37,13 +37,14 @@
       // var pubnub = new PubNub({
         // subscribeKey: 'sub-c-06ec80f0-1db0-11ea-b278-86076a99d5da'
       // });
-        function enablePushNotifications() {
-            const messaging = firebase.messaging();
-            navigator.serviceWorker.register('./firebase-messaging-sw.js')
-              .then((registration) => {
-                messaging.useServiceWorker(registration);
-              })
-              .then(() => messaging.requestPermission())
+      navigator.serviceWorker.register('./firebase-messaging-sw.js');
+      const messaging = firebase.messaging()
+        .then((registration) => {
+          messaging.useServiceWorker(registration);
+        });
+
+        function enablePushNotifications() { 
+              messaging.requestPermission()
               .then(() => messaging.getToken())
               .then(function (token) {
                   console.log('token', token);
