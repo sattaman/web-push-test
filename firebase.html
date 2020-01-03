@@ -37,28 +37,30 @@
       // var pubnub = new PubNub({
         // subscribeKey: 'sub-c-06ec80f0-1db0-11ea-b278-86076a99d5da'
       // });
-      navigator.serviceWorker.register('./firebase-messaging-sw.js');
+
       const messaging = firebase.messaging()
+
+      navigator.serviceWorker.register('./firebase-messaging-sw.js')
         .then((registration) => {
           messaging.useServiceWorker(registration);
         });
 
         function enablePushNotifications() { 
               messaging.requestPermission()
-              .then(() => messaging.getToken())
-              .then(function (token) {
-                  console.log('token', token);
-                  document.getElementById("token").innerHTML = "Token: "+token;
+                .then(() => messaging.getToken())
+                .then(function (token) {
+                    console.log('token', token);
+                    document.getElementById("token").innerHTML = "Token: "+token;
 
-                  // attempt to register with pubnub - this isn't currently working
-                  // messages directly from firebase are however
-                  /* pubnub.push.addChannels(
-                  {
-                      channels: ['ch1'],
-                      device: token,
-                      pushGateway: 'gcm'
-                  }); */
-              });
+                    // attempt to register with pubnub - this isn't currently working
+                    // messages directly from firebase are however
+                    /* pubnub.push.addChannels(
+                    {
+                        channels: ['ch1'],
+                        device: token,
+                        pushGateway: 'gcm'
+                    }); */
+                });
         }
     </script>
   </body>
